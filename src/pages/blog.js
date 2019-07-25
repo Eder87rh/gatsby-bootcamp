@@ -1,5 +1,6 @@
 import React from 'react';
 import Layout from '../components/layout';
+import blogStyles from './blog.module.scss';
 
 import { Link, graphql, useStaticQuery } from 'gatsby';
 
@@ -29,10 +30,10 @@ const BlogPage = () => {
     <div>
       <Layout>
         <h1>Blog</h1>
-        <ol>
+        <ol className={ blogStyles.posts }>
           {
             posts.map((post, index) => 
-            <li key={ index }> 
+            <li key={ index } className={ blogStyles.post }> 
               <Link to={`/blog/${post.node.fields.slug}`}>
                 <h2>
                   { post.node.frontmatter.title } 
