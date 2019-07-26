@@ -10,6 +10,7 @@ module.exports = {
     author: 'Eder Ramírez'
   },
   plugins: [
+    'gatsby-plugin-react-helmet',
     {
       resolve: 'gatsby-source-contentful',
       options: {
