@@ -6,7 +6,10 @@ import { Link, graphql, useStaticQuery } from 'gatsby';
 
 const BlogPage = () => {
 
-  const data = useStaticQuery(graphql`
+  /**
+   * Markdown data
+  */
+  /* const data = useStaticQuery(graphql`
     query {
       allMarkdownRemark {
         edges {
@@ -24,7 +27,30 @@ const BlogPage = () => {
     }
   `);
 
-  const { allMarkdownRemark: { edges: posts } } = data;
+  const { allMarkdownRemark: { edges: posts } } = data; */
+
+  /**
+   * Contentful data
+   */
+
+  const data = useStaticQuery(graphql`
+    query {
+      allContentfulBlogPost (
+        sort: {
+          fields: publishedData,
+          order: DESC
+        }
+      ) {
+        edges {
+          node {
+            title
+            slug
+            publishedData(formatString: "MMM Do, YYYY")
+          }
+        }
+      }
+    }
+  `);
 
   return (
     <div>
@@ -32,18 +58,18 @@ const BlogPage = () => {
         <h1>Blog</h1>
         <ol className={ blogStyles.posts }>
           {
-            posts.map((post, index) => 
+            data.allContentfulBlogPost.edges.map((post, index) => 
             <li key={ index } className={ blogStyles.post }> 
-              <Link to={`/blog/${post.node.fields.slug}`}>
+              <Link to={`/blog/${post.node.slug}`}>
                 <h2>
-                  { post.node.frontmatter.title } 
+                  { post.node.title } 
                 </h2>
                 <p>
-                  { post.node.frontmatter.date }
+                  { post.node.publishedData }
                 </p>
               </Link>
             </li>
-            )
+            ) 
           }
         </ol>
       </Layout>
